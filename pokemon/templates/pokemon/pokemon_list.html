@@ -4,24 +4,82 @@
 <meta charset="utf-8" />
 <title>Pokemon List</title>
 <style>
+    body {
+        background-color: #eee;
+    }
+    .wrapper {
+        margin: 300px auto 0;
+        text-align: center;
+    }
+    .pokemon {
+        width: 300px;
+        background-color: white;
+        text-align: center;
+        display: inline-block;
+    }
+    .pokemon h1 {
+        border-bottom: 3px solid;
+        margin: 0 auto;
+        display: inline-block;
+        -webkit-transition: color 1s ease-out;
+        transition: color 1s ease-out;
+    }
+    /*
+    .pokemon h1.pikachu { color: orange; }
+    .pokemon h1.cobook { color: dodgerblue; }
+    .pokemon h1.firey { color: orangered; }
+     */
+    .pokemon img {
+        display: block;
+        margin: -160px auto 0;
+        width: 100%;
+    }
+    .pokemon p {
+        padding: 0 20px;
+    }
+    .pokemon p span {
+        background-color: orange;
+        padding: 2px 20px;
+        /* display: none; */
+    }
+    .pokemon p:first-letter {
+        font-size: 400%;
+        font-weight: bold;
+        float: left;
+    }
+    .pokemon p a {
+    }
+    .skills {
+        color: gray;
+        padding: 20px;
+        border-top: 1px solid #eee;
+        background-color: #dddddd;
+    }
 </style>
+
 </head>
 <body>
     <h1>Pokemon List</h1>
 
-    <ul>
-    {% for pokemon in pokemon_list %}
-        <li>
-            {{ pokemon.category.name }}
-            {{ pokemon.name }}
-            {% if pokemon.photo %}  {# 저장된 경로가 있다면? => 문자열의 bool과 유사한 판단 #}
-                <img src="{{ pokemon.photo.url }}" style="width: 100px;" />
-            {% endif %}
-            <a href="{{ pokemon.page_url }}" target="_blank">
-                바로가기
-            </a>
-        </li>
-    {% endfor %}
-    </ul>
+    <div class="wrapper">
+        {% for pokemon in pokemon_list %}
+            <div class="pokemon">
+                {% if pokemon.photo %}
+                    <img src="{{ pokemon.photo.url }}" alt="{{ pokemon.name }} 이미지" />
+                {% endif %}
+
+                <h1 class="pikachu">
+                    {{ pokemon.name }}
+                </h1>
+
+                {{ pokemon.desc|linebreaks }}
+
+                <div class="skills">
+                    {{ pokemon.category.name }}
+                    Lightning
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </body>
 </html>
