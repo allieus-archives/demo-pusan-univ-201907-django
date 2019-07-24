@@ -1,19 +1,29 @@
 # from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import CreateView, UpdateView
 
+from pokemon.encoders import MyEncoder
 from pokemon.forms import PokemonForm
 from pokemon.models import Pokemon
 
 
 # @login_required
 def index(request):
-    qs = Pokemon.objects.all()  # QuerySet 타입
-    # return render(request, 'root.html')
+    qs = Pokemon.objects.all()  # QuerySet 타입 => Lazy
+
+    query = request.GET.get("query")
+    if query:
+        qs = qs.filter(name__icontains=query)
+
+    format = request.GET.get("format")  # QueryDict
+    if format == 'json':
+        return JsonResponse(qs, safe=False, encoder=MyEncoder)
+
     return render(request, 'pokemon/pokemon_list.html', {
         'pokemon_list': qs,
     })
+
 
 
 # def pokemon_list_html(request):
