@@ -73,7 +73,9 @@
                 {% endif %}
 
                 <h1 class="pikachu">
-                    {{ pokemon.name }}
+                    <a href="/pokemon/{{ pokemon.pk }}/edit/">
+                        {{ pokemon.name }}
+                    </a>
                 </h1>
 
                 {{ pokemon.desc|linebreaks }}
